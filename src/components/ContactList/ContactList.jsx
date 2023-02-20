@@ -8,14 +8,9 @@ const ContactList = () => {
   const isLoading = useSelector(state => state.contacts.isLoading);
   const filter = useSelector(state => state.filter.filter);
 
-  const filterContacts = () => {
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-    return filteredContacts;
-  };
-
-  const filteredContacts = filterContacts();
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return filteredContacts.length > 0 || isLoading ? (
     <ul className={css.contactList}>
