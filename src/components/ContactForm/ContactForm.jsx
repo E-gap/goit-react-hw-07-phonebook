@@ -1,9 +1,11 @@
-import { addContacts } from '../../redux/contactsSlice';
-import { useDispatch } from 'react-redux';
+import { addContacts } from '../../redux/contactsOperations';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from '../../redux/selectors';
 import css from './ContactForm.module.css';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
+  const stateContacts = useSelector(selectContacts);
 
   const handlerSubmit = event => {
     event.preventDefault();
@@ -11,6 +13,16 @@ const ContactForm = () => {
       name: event.target.elements.name.value,
       phone: event.target.elements.phone.value,
     };
+
+    const isCoincidence = stateContacts.find(
+      item => item.name.toLowerCase() === contact.name.toLowerCase()
+    );
+
+    if (isCoincidence) {
+      alert(`${contact.name} is already in contacts`);
+      event.target.reset();
+      return;
+    }
     dispatch(addContacts(contact));
     event.target.reset();
   };
